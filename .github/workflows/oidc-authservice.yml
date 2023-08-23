@@ -28,7 +28,7 @@ jobs:
           # See <https://github.com/actions/checkout/issues/209>
           tags: |
             # use custom value instead of git tag
-            type=sha,value=0c4ea9a
+            type=sha,prefix=,value=0c4ea9a
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
