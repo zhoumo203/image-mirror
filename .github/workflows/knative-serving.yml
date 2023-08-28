@@ -1,12 +1,6 @@
 name: Publish knative-serving images
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/knative-serving.yml'
-      - 'knative/serving/**'
   workflow_dispatch:  # Allows to trigger the workflow manually in GitHub UI
 
 jobs:
