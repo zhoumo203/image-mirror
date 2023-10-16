@@ -23,11 +23,14 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: zjuici/mirror/huggingface/text-generation-inference
+          tags: |
+            # use custom value instead of git tag
+            type=semver,pattern={{version}},value=v1.1.0
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           file: text-generation-inference/Dockerfile
           context: text-generation-inference  # context does not matter not as there are no files
           push: true
-          tags: "1.0.1"
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
