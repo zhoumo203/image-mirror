@@ -1,4 +1,4 @@
-name: Publish nfs-subdir-external-provisioner image
+name: Publish kube-rbac-proxy image
 
 on:
   workflow_dispatch:  # Allows to trigger the workflow manually in GitHub UI
@@ -20,10 +20,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@879dcbb708d40f8b8679d4f7941b938a086e23a7
         with:
-          images: zjuici/mirror.kubernetes-sigs.nfs-subdir-external-provisioner
+          images: zjuici/mirror.kubebuilder.kube-rbac-proxy
           tags: |
             # use custom value instead of git tag
-            value=v4.0.2
+            value=v0.13.0
       - name: Build and push Docker image
         uses: docker/build-push-action@fdf7f43ecf7c1a5c7afe936410233728a8c2d9c2
         with:
