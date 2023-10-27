@@ -1,0 +1,36 @@
+name: Publish nfs-subdir-external-provisioner image
+
+on:
+  # This image is too large and causes 'No space left on device' error on github's workflow runner
+  # Unless we have our own runner, we cannot use this workflow
+  workflow_dispatch:  # Allows to trigger the workflow manually in GitHub UI
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@b4bedf8053341df3b5a9f9e0f2cf4e79e27360c6
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@879dcbb708d40f8b8679d4f7941b938a086e23a7
+        with:
+          images: zjuici/mirror.kubernetes-sigs.nfs-subdir-external-provisioner
+          tags: |
+            # use custom value instead of git tag
+            value=v4.0.2
+      - name: Build and push Docker image
+        uses: docker/build-push-action@fdf7f43ecf7c1a5c7afe936410233728a8c2d9c2
+        with:
+          file: nfs-subdir-external-provisioner/Dockerfile
+          context: nfs-subdir-external-provisioner  # context does not matter not as there are no files
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
